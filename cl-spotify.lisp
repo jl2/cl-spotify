@@ -92,37 +92,37 @@ https://developer.spotify.com/documentation/web-api/reference/object-model/#user
 https://developer.spotify.com/documentation/web-api/reference/playlists/get-a-list-of-current-users-playlists/"
   (sget
    (format nil "https://api.spotify.com/v1/users/~a/playlists" (user-id connection))
-   connection))
+   :connection connection))
 
 (defun now-playing (&key (connection *global-connection*))
   "Return currently playing track.  For more information: \
 https://developer.spotify.com/documentation/web-api/reference/player/get-the-users-currently-playing-track/"
   (sget
    "https://api.spotify.com/v1/me/player/currently-playing"
-   connection))
+   :connection connection))
 
 
 (defun devices (&key (connection *global-connection*))
-  (sget "https://api.spotify.com/v1/me/player/devices" connection))
+  (sget "https://api.spotify.com/v1/me/player/devices" :connection connection))
 
 
 
 ;; Basic player controls
 (defun play (&key (connection *global-connection*))
   "Resume playing the current track."
-  (sput "https://api.spotify.com/v1/me/player/play" connection))
+  (sput "https://api.spotify.com/v1/me/player/play" :connection connection))
 
 (defun pause (&key (connection *global-connection*))
   "Pause the current track."
-  (sput "https://api.spotify.com/v1/me/player/pause" connection))
+  (sput "https://api.spotify.com/v1/me/player/pause" :connection connection))
 
 (defun next (&key (connection *global-connection*))
   "Skip to the next track."
-  (spost "https://api.spotify.com/v1/me/player/next" connection))
+  (spost "https://api.spotify.com/v1/me/player/next" :connection connection))
 
 (defun previous (&key (connection *global-connection*))
   "Skip to the previous track."
-  (spost "https://api.spotify.com/v1/me/player/previous" connection))
+  (spost "https://api.spotify.com/v1/me/player/previous" :connection connection))
 
 
 
@@ -130,13 +130,15 @@ https://developer.spotify.com/documentation/web-api/reference/player/get-the-use
 (defun iter-backward (iterator &key (connection *global-connection*))
   "Move backwards in the sequence and return the previous block of results."
   (when-let (previous (getjso "previous" iterator))
-    (sget connection previous)))
+    (sget previous :connection connection)))
 
 (defun iter-forward (iterator &key (connection *global-connection*))
   "Move forwards in the sequence and return the next block of results."
   (when-let (forward (getjso "next" iterator))
-    (sget connection forward)))
+    (sget forward :connection connection)))
 
 (defun iter-items (iterator)
   "Return the list of items in the iterator object."
   (getjso "items" iterator))
+
+(global-connect)

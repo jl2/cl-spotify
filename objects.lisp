@@ -36,7 +36,7 @@
       (handler-case
           (when (find-class object-type)
             (make-instance object-type :json json))
-        (sb-pcl:class-not-found-error (err)
+        (class-not-found-error (err)
           (declare (ignorable err))
           (format t "object type ~a not implemented!~%" object-type)
           (make-instance 'spotify-object :json json))))

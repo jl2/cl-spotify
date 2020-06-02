@@ -347,17 +347,17 @@ delay. You can choose to resend the request again."))
     (t
      json-response)))
 
-(defun sget (url &optional (connection *global-connection*))
+(defun sget (url &key (connection *global-connection*))
   "Authenticated GET request for url."
   (to-object (spotify-get-json connection url :keep-alive t :type :get)))
 
 ;; TODO: Add content parameter
-(defun sput (url &optional (connection *global-connection*))
+(defun sput (url &key (connection *global-connection*))
   "Authenticated PUT request for url."
   (spotify-get-json connection url :keep-alive nil :type :put))
 
 ;; TODO: Add content parameter
-(defun spost (url &optional (connection *global-connection*))
+(defun spost (url &key (connection *global-connection*))
   "This function is stupid right now.  It needs content to post..."
   (spotify-get-json connection url :keep-alive nil :type :post))
 
